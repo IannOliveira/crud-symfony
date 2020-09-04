@@ -4,11 +4,10 @@ namespace App\Form;
 
 use App\Entity\Cliente;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Date;
 
 class ClienteType extends AbstractType
 {
@@ -17,12 +16,17 @@ class ClienteType extends AbstractType
         $builder
             ->add('cod')
             ->add('nome')
-            ->add('nascimento', DateType::class ,array(
-                'format' => 'dd-MM-yyyy',
-            ))
+            ->add('nascimento', BirthdayType::class, [
+                'format' => 'dd/MM/yyyy',
+                ])
             ->add('cpf', TextType::class, [
-                'attr' => ['id' => 'customCpf'],
-            ]);
+                'attr' => ['id' => 'customcpf'],
+                'label' => "CPF"
+            ])
+            ->add('acesso', AcessoType::class, [
+                
+            ])
+            ->add('endereco', EnderecoType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

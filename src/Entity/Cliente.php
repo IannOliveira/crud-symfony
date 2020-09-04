@@ -12,7 +12,7 @@ class Cliente
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -36,6 +36,16 @@ class Cliente
      * @ORM\Column(type="string", length=14)
      */
     private $cpf;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Acesso::class, mappedBy="cod_cliente", cascade={"persist", "remove"})
+     */
+    private $acesso;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Endereco::class, mappedBy="cod_cliente", cascade={"persist", "remove"})
+     */
+    private $endereco;
 
     public function getId(): ?int
     {
@@ -86,6 +96,40 @@ class Cliente
     public function setCpf(string $cpf): self
     {
         $this->cpf = $cpf;
+
+        return $this;
+    }
+
+    public function getAcesso(): ?Acesso
+    {
+        return $this->acesso;
+    }
+
+    public function setAcesso(Acesso $acesso): self
+    {
+        $this->acesso = $acesso;
+
+        // set the owning side of the relation if necessary
+        if ($acesso->getCodCliente() !== $this) {
+            $acesso->setCodCliente($this);
+        }
+
+        return $this;
+    }
+
+    public function getEndereco(): ?Endereco
+    {
+        return $this->endereco;
+    }
+
+    public function setEndereco(Endereco $endereco): self
+    {
+        $this->endereco = $endereco;
+
+        // set the owning side of the relation if necessary
+        if ($endereco->getCodCliente() !== $this) {
+            $endereco->setCodCliente($this);
+        }
 
         return $this;
     }

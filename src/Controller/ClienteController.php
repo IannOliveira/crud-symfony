@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Acesso;
 use App\Entity\Cliente;
 use App\Form\ClienteType;
 use App\Repository\ClienteRepository;
+use ContainerTSNGlnz\getAcessoControllerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/cliente")
@@ -35,11 +38,15 @@ class ClienteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dd($request);
             $entityManager = $this->getDoctrine()->getManager();
+            //var_dump($form->get('acesso')->getData()->getPassword());exit;
+
+            $senha = md5($form->get('acesso')->getData()->getPassword());
+            $cliente->getAcesso()->setPassword($senha);
+
             $entityManager->persist($cliente);
             $entityManager->flush();
-
+            
             return $this->redirectToRoute('cliente_index');
         }
 
@@ -66,6 +73,9 @@ class ClienteController extends AbstractController
     {
         $form = $this->createForm(ClienteType::class, $cliente);
         $form->handleRequest($request);
+
+        $senha = md5($form->get('acesso')->getData()->getPassword());
+        $cliente->getAcesso()->setPassword($senha);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();

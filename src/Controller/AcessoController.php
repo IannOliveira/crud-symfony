@@ -9,12 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/acesso")
  */
-class AcessoController extends AbstractController
-{
+class AcessoController extends AbstractController {
     /**
      * @Route("/", name="acesso_index", methods={"GET"})
      */
@@ -36,6 +36,7 @@ class AcessoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+       
             $entityManager->persist($acesso);
             $entityManager->flush();
 

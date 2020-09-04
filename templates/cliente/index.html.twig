@@ -1,41 +1,39 @@
 {% extends 'base.html.twig' %}
 
+
+
 {% block title %}Cliente index{% endblock %}
 
+
 {% block body %}
-    <h1>Cliente index</h1>
+
+    <h1>Clientes</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Cod</th>
                 <th>Nome</th>
-                <th>Nascimento</th>
-                <th>Cpf</th>
-                <th>actions</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
         {% for cliente in clientes %}
             <tr>
-                <td>{{ cliente.id }}</td>
                 <td>{{ cliente.cod }}</td>
                 <td>{{ cliente.nome }}</td>
-                <td>{{ cliente.nascimento ? cliente.nascimento|date('d-m-Y') : '' }}</td>
-                <td>{{ cliente.cpf }}</td>
                 <td>
-                    <a href="{{ path('cliente_show', {'id': cliente.id}) }}">show</a>
-                    <a href="{{ path('cliente_edit', {'id': cliente.id}) }}">edit</a>
+                    <a href="{{ path('cliente_show', {'id': cliente.id}) }}">Visualizar</a>
+                    <a href="{{ path('cliente_edit', {'id': cliente.id}) }}">Editar</a>
                 </td>
+                <td>{{ include('cliente/_delete_form.html.twig') }} </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Nenhum cliente cadastrado.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('cliente_new') }}">Create new</a>
+    <a href="{{ path('cliente_new') }}" >Novo Cliente</a>
 {% endblock %}

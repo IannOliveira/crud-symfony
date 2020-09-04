@@ -10,6 +10,11 @@ security:
             anonymous: true
             lazy: true
             provider: users_in_memory
+    encoders:
+        AppBundle\Entity\Acesso:
+            algorithm: md5
+            encode_as_base64: false
+            iterations: 1     
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
